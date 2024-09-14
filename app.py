@@ -53,7 +53,9 @@ if __name__ == "__main__":
     # Configuração do cliente MQTT
     client = mqtt.Client()
     client.on_connect = on_connect
-    client.connect("localhost", 1883, 60)
+    client.connect("broker.hivemq.com", 1883, 60)
+
+
     
     client.loop_start()
     
