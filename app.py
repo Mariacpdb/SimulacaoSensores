@@ -25,25 +25,31 @@ def prever_chuva(temperatura, umidade):
 def simular_clima():
     global simulated_data
     while True:
-        temperatura = round(random.uniform(15, 35), 2)
-        umidade = round(random.uniform(50, 100), 2)
-        previsao = prever_chuva(temperatura, umidade)
-        
-        simulated_data = {
-            'temperature': temperatura,
-            'humidity': umidade,
-            'forecast': previsao
-        }
-        
-        # Publica os dados no MQTT
-        client.publish("sensores/clima", str(simulated_data))
-        print(f"Enviando dados: {simulated_data}")
-        
-        time.sleep(5)
+        try:
+            temperatura = round(random.uniform(15, 35), 2)
+            umidade = round(random.uniform(50, 100), 2)
+            previsao = prever_chuva(temperatura, umidade)
+            
+            simulated_data = {
+                'temperature': temperatura,
+                'humidity': umidade,
+                'forecast': previsao
+            }
+            
+            # Publica os dados no MQTT
+            client.publish("sensores/clima", str(simulated_data))
+            print(f"Enviando dados: {simulated_data}")
+            
+            time.sleep(5)
+        except Exception as e:
+            print(f"Erro na simulação: {e}")
 
 # Callback para conexão MQTT
 def on_connect(client, userdata, flags, rc):
-    print(f"Conectado ao broker MQTT com código {rc}")
+    if rc == 0:
+        print("Conectado ao broker MQTT com sucesso")
+    else:
+        print(f"Falha na conexão MQTT com código {rc}")
 
 # Endpoint da API Flask
 @app.route('/sensor_data', methods=['GET'])
