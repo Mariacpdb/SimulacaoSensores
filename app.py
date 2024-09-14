@@ -3,6 +3,7 @@ import random
 import time
 import threading
 import paho.mqtt.client as mqtt
+import os
 
 app = Flask(__name__)
 
@@ -55,8 +56,6 @@ if __name__ == "__main__":
     client.on_connect = on_connect
     client.connect("broker.hivemq.com", 1883, 60)
 
-
-    
     client.loop_start()
     
     # Inicia a simulação em uma nova thread
@@ -64,5 +63,8 @@ if __name__ == "__main__":
     simulation_thread.daemon = True
     simulation_thread.start()
     
-    # Executa o servidor Flask
-    app.run(host='0.0.0.0', port=5000)
+    # Executa o servidor Flask na porta especificada pela variável de ambiente PORT
+    port = int(os.getenv("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
+   
