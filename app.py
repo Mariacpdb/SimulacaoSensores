@@ -4,7 +4,7 @@ import time
 import json  
 broker = 'localhost'  
 port = 1883
-topic = "sensor/energiasolar"
+topic = "sensores/energiasolar"
 
 def gerardados():
     dados = {

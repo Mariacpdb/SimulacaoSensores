@@ -16,7 +16,7 @@ port = 1883
 topic = 'sensores/energiasolar'
 
 
-client = mqtt.Client()
+client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = menssagem_ativada
 client.connect(broker, port)
 client.subscribe(topic)
