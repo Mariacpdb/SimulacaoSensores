@@ -1,22 +1,25 @@
 import paho.mqtt.client as mqtt
+import json
+
+
+def menssagem_ativada (client, userdata, message):
+    dados = json.loads(message.payload.decode())
+    print(f'Dados recebidos: {dados}')
+    
+   
+    if dados['temperatura'] > 45:
+        print("Alerta: Temperatura elevada!")
+
 
 broker = 'localhost'
 port = 1883
-topic = "sensor/temperatura"
+topic = 'sensores/energiasolar'
 
 
-def on_message(client, userdata, message):
-    print(f"Mensagem recebida no tópico {message.topic}: {message.payload.decode()}")
+client = mqtt.Client()
+client.on_message = menssagem_ativada
+client.connect(broker, port)
+client.subscribe(topic)
 
 
-def subscribe():
-  
-    client = mqtt.Client(protocol=mqtt.MQTTv311)  
-    client.on_message = on_message
-    client.subscribe(topic)
-
-    
-    client.loop_forever()
-
-if __name__ == "__main__":
-    subscribe()
+client.loop_forever()
