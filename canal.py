@@ -12,6 +12,6 @@ def enviar_dados_thingspeak(dados):
 
 if __name__ == "__main__":
     while True:
-        dados = gerardaddos()  
+        dados = gerardados()  
         enviar_dados_thingspeak(dados)
         time.sleep(15) 
